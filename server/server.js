@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     console.log('create message', message);
     // *** io.emit to all connections
     io.emit('newMessage', generateMessage(message.from, message.text));
-    callback('This is from the server.');
+    callback();
     // *** broadcast a single to everyone but itself
       // socket.broadcast.emit('newMessage', {
       //   from: message.from,
