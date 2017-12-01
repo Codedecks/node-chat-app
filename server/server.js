@@ -5,7 +5,6 @@ const socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
-
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -25,15 +24,22 @@ io.on('connection', (socket) => {
   //   console.log('createEmail', newEmail);
   // });
 
+  // socket.emit to a single connection
   socket.on('createMessage', (message) => {
     console.log('create message', message);
+    // io.emit to all connections
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   });
 
-  socket.emit('newMessage', {
-    from: 'Brad',
-    text: 'HelloOOoOooO there....',
-    createdAt: 123
-  });
+  // socket.emit('newMessage', {
+  //   from: 'Brad',
+  //   text: 'HelloOOoOooO there....',
+  //   createdAt: 123
+  // });
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
